@@ -1,0 +1,117 @@
+plugins {
+  id 'com.android.application'
+  id 'kotlin-android'
+  id 'kotlin-kapt'
+  id 'dagger.hilt.android.plugin'
+}
+
+android {
+  compileSdkVersion 29
+
+  defaultConfig {
+    applicationId "com.thescore"
+    minSdkVersion 19
+    targetSdkVersion 29
+    versionCode 1
+    versionName "1.0"
+
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    testInstrumentationRunner "com.thescore.TestRunner"
+  }
+  sourceSets {
+    test {
+      resources.srcDirs += ['src/test/resources']
+    }
+  }
+  testOptions {
+    unitTests {
+      includeAndroidResources = true
+      unitTests.returnDefaultValues = true
+    }
+  }
+  hilt {
+    enableTransformForLocalTests = true
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+  }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+  kotlinOptions {
+    jvmTarget = '1.8'
+  }
+
+  buildFeatures {
+    viewBinding true
+  }
+
+}
+
+dependencies {
+  //Hilt dependency injection
+  implementation "com.google.dagger:hilt-android:$hilt_version"
+  kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+  //Hilt ViewModel extensions
+  implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_lifecycle_viewmodel_version"
+  kapt "androidx.hilt:hilt-compiler:$hilt_lifecycle_viewmodel_version"
+  // Hilt testing dependency
+  androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
+
+
+  //Room dependencies
+  implementation "androidx.room:room-runtime:$room_version"
+  kapt "androidx.room:room-compiler:$room_version"
+  implementation "androidx.room:room-ktx:$room_version"
+  implementation "androidx.room:room-rxjava2:$room_version"
+  kapt "android.arch.persistence.room:compiler:$room_version"
+  implementation "android.arch.persistence.room:runtime:$room_version"
+  kaptAndroidTest "android.arch.persistence.room:testing:$room_version"
+
+
+  //Gson
+  implementation "com.google.code.gson:gson:$gson_version"
+
+  // retrofit
+  implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+  implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+  implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+
+  //RxJava
+  implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
+  implementation "android.arch.persistence.room:rxjava2:$rxjava_persistence"
+  implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+  implementation 'com.github.pwittchen:reactivenetwork-rx2:0.12.3'
+
+  //Timber
+  implementation "com.jakewharton.timber:timber:$timber_version"
+
+  //preferences
+  implementation 'androidx.preference:preference-ktx:1.1.1'
+
+  //optional
+  implementation"com.fernandocejas:arrow:$arrow_version"
+
+  //mockk
+  testImplementation "io.mockk:mockk:1.10.0"
+// Lifecycle components
+  implementation "android.arch.lifecycle:extensions:$arch_vifecycle_version"
+  kapt "android.arch.lifecycle:compiler:$arch_vifecycle_version"
+
+
+  implementation "androidx.cardview:cardview:$android_card_view_version"
+  implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+  implementation "androidx.core:core-ktx:$android_core_kotlin"
+  implementation "androidx.appcompat:appcompat:$android_app_compact"
+  implementation "com.google.android.material:material:$android_material"
+  implementation "androidx.constraintlayout:constraintlayout:$android_constraint_layout"
+  testImplementation "junit:junit:$junit_version"
+  androidTestImplementation "androidx.test.ext:junit:$android_junit"
+  androidTestImplementation "androidx.test.espresso:espresso-core:$android_espresso"
+}

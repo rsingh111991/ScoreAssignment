@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".teams.teamslist.TeamsListActivity">
+
+   <include
+       android:id="@+id/toolbarInclude"
+       layout="@layout/app_toolbar"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/teamList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginStart="@dimen/padding_large"
+        android:layout_marginEnd="@dimen/padding_large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarInclude" />
+
+    <include
+        android:id="@+id/noDataFound"
+        layout="@layout/empty_list"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarInclude"
+        />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/noDataFound"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarInclude" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
