@@ -75,7 +75,7 @@ class TeamsListActivity : BaseActivity() {
             }else{
                 showErrorMessage(getString(R.string.no_data_found))
             }
-        }else {
+        }else if(it?.status == Status.ERROR){
             showErrorMessage(getString(R.string.no_data_found))
         }
     }

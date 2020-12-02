@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.thescore.BaseActivity
 import com.thescore.R
 import com.thescore.databinding.ActivityTeamDetailBinding
+import com.thescore.retrofit.Resource
 import com.thescore.retrofit.Status
+import com.thescore.teams.uimodel.PlayerActionableItem
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -55,25 +57,29 @@ class TeamDetailActivity : BaseActivity() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    if (it.status == Status.SUCCESS) {
-                        if (it.data.isNullOrEmpty().not()) {
-                            val actionableItem = it.data!![0]
-                            binding.teamRoosterList.isVisible = true
-                            binding.noDataFoundDetailScreen.root.isVisible = false
-                            playerRoosterAdapter = PlayerRoosterAdapter(actionableItem.uiPlayerList)
-                            binding.teamRoosterList.adapter = playerRoosterAdapter
-                            binding.teamName.text = actionableItem.teamName
-                        } else {
-                            showErrorMessage(getString(R.string.no_data_found))
-                        }
-                    } else {
-                        showErrorMessage(getString(R.string.no_data_found))
-                    }
+                    handlePlayersData(it)
                 }, { throwable ->
                     Timber.e(throwable.localizedMessage)
                     showErrorMessage(getString(R.string.no_data_found))
                 })
         )
+    }
+
+    private fun handlePlayersData(it: Resource<ArrayList<PlayerActionableItem>>?) {
+        if (it?.status == Status.SUCCESS) {
+            if (it.data.isNullOrEmpty().not()) {
+                val actionableItem = it.data!![0]
+                binding.teamRoosterList.isVisible = true
+                binding.noDataFoundDetailScreen.root.isVisible = false
+                playerRoosterAdapter = PlayerRoosterAdapter(actionableItem.uiPlayerList)
+                binding.teamRoosterList.adapter = playerRoosterAdapter
+                binding.teamName.text = actionableItem.teamName
+            } else {
+                showErrorMessage(getString(R.string.no_data_found))
+            }
+        } else {
+            showErrorMessage(getString(R.string.no_data_found))
+        }
     }
 
     override fun showErrorMessage(errorTitle: String) {
