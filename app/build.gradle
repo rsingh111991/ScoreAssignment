@@ -35,8 +35,14 @@ android {
 
   buildTypes {
     release {
+      debuggable false
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+
+    debug {
+      debuggable true
+      minifyEnabled false
     }
   }
   compileOptions {
@@ -100,8 +106,7 @@ dependencies {
   //mockk
   testImplementation "io.mockk:mockk:$mockk_version"
 // Lifecycle components
-  implementation "android.arch.lifecycle:extensions:$arch_vifecycle_version"
-  kapt "android.arch.lifecycle:compiler:$arch_vifecycle_version"
+  kapt "androidx.lifecycle:lifecycle-common-java8:$java8_lifecycle_version"
 
 
   implementation "androidx.cardview:cardview:$android_card_view_version"

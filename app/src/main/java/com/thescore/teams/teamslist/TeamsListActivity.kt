@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
-import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.thescore.BaseActivity
@@ -17,7 +15,6 @@ import com.thescore.teams.teamslist.sort.TeamListOrderBy
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import timber.log.Timber
@@ -37,6 +34,12 @@ class TeamsListActivity : BaseActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbarInclude.toolbar)
         scoreViewModel.navigator = TeamListNavigator(this)
+        setUpLayoutManager()
+    }
+
+    private fun setUpLayoutManager() {
+        binding.teamList.layoutManager = LinearLayoutManager(this)
+        teamItemRecyclerViewAdapter = TeamItemRecyclerViewAdapter()
     }
 
     override fun onStart() {
@@ -56,9 +59,8 @@ class TeamsListActivity : BaseActivity() {
                         binding.teamList.isVisible = true
                         binding.progress.isVisible = false
                         binding.noDataFound.root.isVisible = false
-                        teamItemRecyclerViewAdapter = TeamItemRecyclerViewAdapter(it.data!!)
+                        teamItemRecyclerViewAdapter.updateTeamData(it.data!!)
                         binding.teamList.adapter = teamItemRecyclerViewAdapter
-                        binding.teamList.layoutManager = LinearLayoutManager(this)
                     }else{
                         showErrorMessage(getString(R.string.no_data_found))
                     }

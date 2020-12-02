@@ -43,8 +43,11 @@ class TeamDetailActivity : BaseActivity() {
         setSupportActionBar(binding.toolbar)
         unableBackButton()
         setContentView(binding.root)
+        setUpLayoutManager()
     }
-
+    private fun setUpLayoutManager() {
+        binding.teamRoosterList.layoutManager = LinearLayoutManager(this)
+    }
     override fun onStart() {
         super.onStart()
         compositeDisposable.add(
@@ -59,7 +62,6 @@ class TeamDetailActivity : BaseActivity() {
                             binding.noDataFoundDetailScreen.root.isVisible = false
                             playerRoosterAdapter = PlayerRoosterAdapter(actionableItem.uiPlayerList)
                             binding.teamRoosterList.adapter = playerRoosterAdapter
-                            binding.teamRoosterList.layoutManager = LinearLayoutManager(this)
                             binding.teamName.text = actionableItem.teamName
                         } else {
                             showErrorMessage(getString(R.string.no_data_found))

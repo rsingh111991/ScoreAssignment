@@ -7,8 +7,14 @@ import com.thescore.R
 import com.thescore.databinding.TeamItemLayoutBinding
 import com.thescore.teams.uimodel.ActionableItem
 
-class TeamItemRecyclerViewAdapter(private val teamArrayList : List<ActionableItem>): RecyclerView.Adapter<TeamItemRecyclerViewAdapter.ViewHolder>() {
+class TeamItemRecyclerViewAdapter: RecyclerView.Adapter<TeamItemRecyclerViewAdapter.ViewHolder>() {
+    private var teamArrayList : MutableList<ActionableItem> = mutableListOf()
 
+    fun updateTeamData(teamList : List<ActionableItem>){
+        teamArrayList.clear()
+        teamArrayList.addAll(teamList)
+        notifyDataSetChanged()
+    }
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
@@ -34,7 +40,7 @@ class TeamItemRecyclerViewAdapter(private val teamArrayList : List<ActionableIte
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.bind(teamArrayList[position])
+        viewHolder.bind(teamArrayList.get(position))
     }
 
     // Return the size of your dataset (invoked by the layout manager)
