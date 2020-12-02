@@ -9,9 +9,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.thescore.BaseActivity
 import com.thescore.R
 import com.thescore.databinding.ActivityMainBinding
+import com.thescore.retrofit.Resource
 import com.thescore.retrofit.Status
 import com.thescore.teams.teamslist.sort.TeamListOrder
 import com.thescore.teams.teamslist.sort.TeamListOrderBy
+import com.thescore.teams.uimodel.ActionableItem
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -50,29 +52,35 @@ class TeamsListActivity : BaseActivity() {
             .switchMap {
                 scoreViewModel.observeTeamSubject(orderSubject.value!!.teamListOrder)
             }
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe ({
-                if(it.status == Status.LOADING){
-                    binding.progress.isVisible = true
-                }else if(it.status == Status.SUCCESS){
-                    if(it.data.isNullOrEmpty().not()){
-                        binding.teamList.isVisible = true
-                        binding.progress.isVisible = false
-                        binding.noDataFound.root.isVisible = false
-                        teamItemRecyclerViewAdapter.updateTeamData(it.data!!)
-                        binding.teamList.adapter = teamItemRecyclerViewAdapter
-                    }else{
-                        showErrorMessage(getString(R.string.no_data_found))
-                    }
-                }else {
-                    showErrorMessage(getString(R.string.no_data_found))
-                }
+                handleTeamData(it)
+
             },{ throwable ->
                 Timber.e(throwable.localizedMessage)
             }))
     }
 
-     override fun showErrorMessage(errorTitle: String){
+    private fun handleTeamData(it: Resource<MutableList<ActionableItem>>?) {
+        if(it?.status == Status.LOADING){
+            binding.progress.isVisible = true
+        }else if(it?.status == Status.SUCCESS){
+            if(it.data.isNullOrEmpty().not()){
+                binding.teamList.isVisible = true
+                binding.progress.isVisible = false
+                binding.noDataFound.root.isVisible = false
+                teamItemRecyclerViewAdapter.updateTeamData(it.data!!)
+                binding.teamList.adapter = teamItemRecyclerViewAdapter
+            }else{
+                showErrorMessage(getString(R.string.no_data_found))
+            }
+        }else {
+            showErrorMessage(getString(R.string.no_data_found))
+        }
+    }
+
+    override fun showErrorMessage(errorTitle: String){
         binding.progress.isVisible = false
         binding.noDataFound.root.isVisible = true
         binding.noDataFound.errorTitle.text = errorTitle
@@ -99,5 +107,10 @@ class TeamsListActivity : BaseActivity() {
             R.id.actionSortByLosses -> orderSubject.onNext(TeamListOrderBy(TeamListOrder.MostLost()))
         }
         return true
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.clear()
     }
 }

@@ -38,14 +38,12 @@ abstract class NetworkBoundResource<RemoteType, LocalType>(
         val fetchRemote = shouldFetchFromRemote()
         val resourceStatus: BehaviorSubject<Status> =
             BehaviorSubject.createDefault(if (fetchRemote) Status.LOADING else Status.SUCCESS)
-        compositeDisposable.add(resourceStatus.toFlowable(BackpressureStrategy.LATEST)
-            .switchMap {
-                Flowable.combineLatest(getLocal().switchIfEmpty(Flowable.never()),
+        compositeDisposable.add(Flowable.combineLatest(getLocal().switchIfEmpty(Flowable.never()),
                     throwableMain.toFlowable(BackpressureStrategy.LATEST),
                     { t1: LocalType, t2 -> Pair(t1, t2) })
-            }
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.newThread())
+            .distinctUntilChanged()
             .subscribe({ result ->
                 emitter.onNext(
                     Resource.newResource(

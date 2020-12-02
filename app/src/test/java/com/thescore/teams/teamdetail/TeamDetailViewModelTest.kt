@@ -3,9 +3,13 @@ package com.thescore.teams.teamdetail
 import com.thescore.mocks.FakeTeams
 import com.thescore.persistence.entity.Players
 import com.thescore.teams.teamdetail.sort.PlayerMapper
+import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockkClass
+import io.mockk.unmockkAll
 import io.reactivex.Single
+import org.junit.After
+import org.junit.AfterClass
 import org.junit.Before
 import org.junit.Test
 
@@ -46,5 +50,15 @@ class TeamDetailViewModelTest{
             .assertValue {
                 it.data?.size!! > 0
             }
+    }
+
+    @After
+    fun tearDown() {
+        clearAllMocks(true)
+    }
+
+    @AfterClass
+    fun closeMockks(){
+        unmockkAll()
     }
 }

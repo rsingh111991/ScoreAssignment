@@ -9,11 +9,11 @@ import com.thescore.persistence.dao.TeamsDao
 import com.thescore.persistence.entity.Teams
 import com.thescore.retrofit.connection.IInternetObserver
 import com.thescore.teams.teamslist.sort.TeamListOrder
-import io.mockk.every
-import io.mockk.mockkClass
+import io.mockk.*
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Observable
 import org.junit.After
+import org.junit.AfterClass
 import org.junit.Before
 import org.junit.Test
 
@@ -112,5 +112,11 @@ class TeamListRepositoryTest {
 
     @After
     fun tearDown() {
+        clearAllMocks(true)
+    }
+
+    @AfterClass
+    fun closeMockks(){
+        unmockkAll()
     }
 }

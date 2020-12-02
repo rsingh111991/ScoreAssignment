@@ -51,17 +51,17 @@ companion object{
                 }
 
                 override fun saveCallResult(dataResponse: List<Teams>) {
-                    scoreDatabase.runInTransaction {
-                        val playersArrayList = ArrayList<Players>()
-                        for( (index, team) in dataResponse.withIndex()){
-                            if(team.players !=null) {
-                                dataResponse[index].playersCount = team.players.size
-                                val playersEntity = Players(team.players, team.teamFullName, team.id)
-                                playersArrayList.add(playersEntity)
-                            }
-
+                    val playersArrayList = ArrayList<Players>()
+                    for( (index, team) in dataResponse.withIndex()){
+                        if(team.players !=null) {
+                            dataResponse[index].playersCount = team.players.size
+                            val playersEntity = Players(team.players, team.teamFullName, team.id)
+                            playersArrayList.add(playersEntity)
                         }
-                        updateLastFetchTime()
+
+                    }
+                    updateLastFetchTime()
+                    scoreDatabase.runInTransaction {
                         playersDao.insertAllPlayers(playersArrayList)
                         teamsDao.insertAllTeams(dataResponse)
                     }

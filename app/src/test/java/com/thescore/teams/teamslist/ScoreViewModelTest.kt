@@ -5,10 +5,14 @@ import com.thescore.persistence.entity.Teams
 import com.thescore.retrofit.Resource
 import com.thescore.retrofit.Status
 import com.thescore.teams.teamslist.sort.TeamListOrder
+import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockkClass
+import io.mockk.unmockkAll
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Observable
+import org.junit.After
+import org.junit.AfterClass
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -72,5 +76,15 @@ class ScoreViewModelTest {
             ?.assertValue {
                 it.data?.size == 0
             }
+    }
+
+    @After
+    fun tearDown() {
+        clearAllMocks(true)
+    }
+
+    @AfterClass
+    fun closeMockks(){
+        unmockkAll()
     }
 }

@@ -81,4 +81,9 @@ class TeamDetailActivity : BaseActivity() {
         binding.noDataFoundDetailScreen.errorTitle.text = errorTitle
         binding.noDataFoundDetailScreen.errorMessage.text = getString(R.string.please_try_again_later)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.clear()
+    }
 }

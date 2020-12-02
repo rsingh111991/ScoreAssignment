@@ -107,6 +107,7 @@ dependencies {
   testImplementation "io.mockk:mockk:$mockk_version"
 // Lifecycle components
   kapt "androidx.lifecycle:lifecycle-common-java8:$java8_lifecycle_version"
+  implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$java8_lifecycle_version"
 
 
   implementation "androidx.cardview:cardview:$android_card_view_version"
