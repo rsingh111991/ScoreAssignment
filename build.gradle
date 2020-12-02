@@ -51,10 +51,16 @@ ext {
   //rxjava
   rxjava_version = '2.2.9'
   rxjava_persistence = '1.1.1'
+  rxandroid_version = '2.1.1'
+  reactive_network = '0.12.3'
 
   //timber
   timber_version = '4.7.1'
   //optional
   arrow_version ='1.0.0'
   arch_vifecycle_version = "2.2.5"
+  //Shared preferences
+  prefs_version = '1.1.1'
+  //mockk version
+  mockk_version = '1.10.0'
 }
