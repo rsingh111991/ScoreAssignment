@@ -13,5 +13,10 @@
     <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
     <!-- Customize your theme here. -->
   </style>
-
+  <style name="ToolBarTheme.ToolBarStyle"    parent="Theme.TheScore">
+    <item name="android:text">""</item>
+    <item name="android:textColor">@color/white</item>
+    <item name="android:textColorSecondary">@color/white</item>
+    <item name="android:textColorPrimaryInverse">@color/white</item>
+  </style>
 </resources>

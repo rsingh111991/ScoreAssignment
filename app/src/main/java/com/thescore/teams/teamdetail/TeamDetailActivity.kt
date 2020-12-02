@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import com.thescore.BaseActivity
 import com.thescore.R
 import com.thescore.databinding.ActivityTeamDetailBinding
@@ -41,6 +40,8 @@ class TeamDetailActivity : BaseActivity() {
         setContentView(R.layout.activity_team_detail)
         teamID = intent.getIntExtra(TEAM_ID, 0)
         binding = ActivityTeamDetailBinding.inflate(layoutInflater)
+        setSupportActionBar(binding.toolbar)
+        unableBackButton()
         setContentView(binding.root)
     }
 
@@ -55,7 +56,7 @@ class TeamDetailActivity : BaseActivity() {
                         if (it.data.isNullOrEmpty().not()) {
                             val actionableItem = it.data!![0]
                             binding.teamRoosterList.isVisible = true
-                            binding.noDataFound.root.isVisible = false
+                            binding.noDataFoundDetailScreen.root.isVisible = false
                             playerRoosterAdapter = PlayerRoosterAdapter(actionableItem.uiPlayerList)
                             binding.teamRoosterList.adapter = playerRoosterAdapter
                             binding.teamRoosterList.layoutManager = LinearLayoutManager(this)
@@ -74,8 +75,8 @@ class TeamDetailActivity : BaseActivity() {
     }
 
     override fun showErrorMessage(errorTitle: String) {
-        binding.noDataFound.root.isVisible = true
-        binding.noDataFound.errorTitle.text = errorTitle
-        binding.noDataFound.errorMessage.text = getString(R.string.please_try_again_later)
+        binding.noDataFoundDetailScreen.root.isVisible = true
+        binding.noDataFoundDetailScreen.errorTitle.text = errorTitle
+        binding.noDataFoundDetailScreen.errorMessage.text = getString(R.string.please_try_again_later)
     }
 }

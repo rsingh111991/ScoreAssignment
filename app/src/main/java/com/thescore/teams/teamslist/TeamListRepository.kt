@@ -53,13 +53,13 @@ companion object{
                 override fun saveCallResult(dataResponse: List<Teams>) {
                     scoreDatabase.runInTransaction {
                         val playersArrayList = ArrayList<Players>()
-                        for( team in dataResponse){
+                        for( (index, team) in dataResponse.withIndex()){
                             if(team.players !=null) {
-                                team.playersCount = team.players.size
+                                dataResponse[index].playersCount = team.players.size
                                 val playersEntity = Players(team.players, team.teamFullName, team.id)
                                 playersArrayList.add(playersEntity)
                             }
-                            team.playersCount = 0
+
                         }
                         updateLastFetchTime()
                         playersDao.insertAllPlayers(playersArrayList)

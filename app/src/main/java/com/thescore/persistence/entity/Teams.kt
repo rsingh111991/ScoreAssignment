@@ -14,7 +14,7 @@ data class Teams(
     @ColumnInfo(name = "full_name") val teamFullName: String?, //(Team's name)
     val wins: Int, //(Team's wins)
     val losses: Int, //(Team's losses)
-    var playersCount: Int
+    var playersCount: Int = 0
 ){
     @Ignore val players: List<PlayersElements>? = null//(List of players on the team)
 }

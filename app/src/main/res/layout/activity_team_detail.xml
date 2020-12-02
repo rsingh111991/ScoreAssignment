@@ -28,10 +28,10 @@
                 <TextView
                     android:id="@+id/teamName"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/top_margin_large"
+                    android:layout_height="match_parent"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_xlarge"
+                    android:gravity="center_vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -39,10 +39,12 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+                app:popupTheme="@style/Theme.TheScore"
+                app:theme="@style/ToolBarTheme.ToolBarStyle" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -60,7 +62,7 @@
         </androidx.recyclerview.widget.RecyclerView>
 
         <include
-            android:id="@+id/noDataFound"
+            android:id="@+id/noDataFoundDetailScreen"
             layout="@layout/empty_list" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
